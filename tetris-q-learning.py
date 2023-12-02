@@ -4,11 +4,20 @@ import random
 from tqdm import tqdm
 import pickle
 import zlib
+import os
 
 # default action space is 5
 env = gymnasium.make("ALE/Tetris-v5", obs_type="ram", render_mode="rgb_array")
 
-Q_table = {}
+# if file exists, load it
+if (os.path.exists('q_learning.gz')):
+    with open('q_learning.gz', 'rb') as fp:
+        print("Loading Q Table")
+        data = zlib.decompress(fp.read())
+        Q_table = pickle.loads(data)
+else:
+    Q_table = {}
+
 
 done = True
 gamma = 0.9
@@ -46,7 +55,8 @@ env.close()
 # save the q table
 # convert the ndarray to list
 for key in Q_table:
-    Q_table[key] = Q_table[key].tolist()
+    if (type(Q_table[key]) == np.ndarray):
+        Q_table[key] = Q_table[key].tolist()
 
 with open('q_learning.gz', 'wb') as fp:
   fp.write(zlib.compress(pickle.dumps(Q_table, pickle.HIGHEST_PROTOCOL),9))
