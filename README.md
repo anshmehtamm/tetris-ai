@@ -5,9 +5,8 @@ This repository contains the code for the project report on using reinforcement 
 ## Table of Contents
 - [Introduction](#introduction)
 - [Installation](#installation)
-- [Demo](#usage)
-- [Contributing](#contributing)
-- [License](#license)
+- [Usage](#usage)
+- [Demo](#demo)
 
 ## Introduction
 In this project, we explore the application of reinforcement learning techniques to train an agent to play the game Block Breaker. The goal is to develop an AI agent that can learn to play the game effectively through trial and error. Various method of reinforcment learning explored. Code can be found in directories
@@ -32,9 +31,6 @@ Clone the repo, in the directory of DQN(With Heuristics) run the train.py to tra
 
 DQN Heuristic 
 ![](demo.gif)
-
-## License
-
 
 
 
