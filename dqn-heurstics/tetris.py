@@ -1,3 +1,5 @@
+# refer: https://github.com/uvipen/Tetris-deep-Q-learning-pytorch
+
 import numpy as np
 from PIL import Image
 import cv2

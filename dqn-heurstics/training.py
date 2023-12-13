@@ -9,34 +9,40 @@ from dqn import DeepQNetwork
 from tetris import Tetris
 from matplotlib import pyplot as plt
 
-# read file for numbers of lines cleared
+decay = 0.999
+episodes = 0
+highest_score=0
+MIN_SAMPLES_REQUIRED = 3000
+REPLAY_MEMORY_SIZE = 30000
+
 lines_cleared = []
 model = DeepQNetwork()
-env = Tetris(width=10, height=20, block_size=30)
 
-optimizer = torch.optim.Adam(model.parameters(), lr=1e-3)
+opt = torch.optim.Adam(model.parameters(), lr=1e-3)
 criterion = nn.MSELoss()
-
+env = Tetris(width=10, height=20, block_size=30)
 state = env.reset()
-replay_memory = deque(maxlen=30000)
-decay = 0.999
-epoch = 0
-highest_score=0
 
-while epoch < 10000:
+replay = deque(maxlen=REPLAY_MEMORY_SIZE)
+
+
+while episodes < 10000:
     next_steps = env.get_next_states()
-    epsilon = 1e-3 + (max(2000 - epoch, 0) * (
+    epsilon = 1e-3 + (max(2000 - episodes, 0) * (
             1 - 1e-3) / 2000)
-    u = random()
-    random_action = u <= epsilon
+    
     next_actions, next_states = zip(*next_steps.items())
     next_states = torch.stack(next_states)
+
     model.eval()
 
     with torch.no_grad():
         predictions = model(next_states)[:, 0]
+
+    # train the model
     model.train()
-    if random_action:
+
+    if random() < epsilon:
         index = randint(0, len(next_steps) - 1)
     else:
         index = torch.argmax(predictions).item()
@@ -44,22 +50,27 @@ while epoch < 10000:
     next_state = next_states[index, :]
     action = next_actions[index]
 
-    reward, done = env.step(action, render=False)
+    lines, done = env.step(action, render=False)
 
-    replay_memory.append([state, reward, next_state, done])
-    if done:
+    replay.append([state, lines, next_state, done])
+
+    if not done:
+        state = next_state
+        continue
+    else:
         final_score = env.score
         final_tetrominoes = env.tetrominoes
         final_cleared_lines = env.cleared_lines
         state = env.reset()
-    else:
-        state = next_state
+
+    if len(replay) < MIN_SAMPLES_REQUIRED:
+        # dont train until we have enough samples
         continue
-    if len(replay_memory) < 3000:
-        continue
-    epoch += 1
-    batch = sample(replay_memory, min(len(replay_memory), 32))
-    state_batch, reward_batch, next_state_batch, done_batch = zip(*batch)
+
+    episodes += 1
+    batch_to_train = sample(replay, min(len(replay), 32))
+
+    state_batch, reward_batch, next_state_batch, done_batch = zip(*batch_to_train)
     state_batch = torch.stack(tuple(state for state in state_batch))
     reward_batch = torch.from_numpy(np.array(reward_batch, dtype=np.float32)[:, None])
     next_state_batch = torch.stack(tuple(state for state in next_state_batch))
@@ -73,30 +84,20 @@ while epoch < 10000:
     y_batch = torch.cat(
         tuple(reward if done else reward + decay * prediction for reward, done, prediction in
               zip(reward_batch, done_batch, next_prediction_batch)))[:, None]
-    optimizer.zero_grad()
+    
+    opt.zero_grad()
     loss = criterion(q_values, y_batch)
     loss.backward()
-    optimizer.step()
+    opt.step()
 
-    print("Epoch: {}/{}, Action: {}, Score: {}, Tetrominoes {}, Cleared lines: {}".format(
-        epoch,
-        10000,
-        action,
-        final_score,
-        final_tetrominoes,
-        final_cleared_lines))
-    lines_cleared.append(final_score)
+    print("Game {} finished with score {}".format(episodes, final_score))
 
-    if (epoch>2000 and epoch % 100 == 0):
+    if (episodes>2000 and episodes % 100 == 0):
         # continue
         if (input("Continue?")=="n"):
             break
 
-    # if epoch > 0 and final_score>highest_score:
-    #     torch.save(model, "{}/tetrisNew_{}".format("saved_models/", epoch))
-
-    # torch.save(model, "{}/tetrisNew".format("saved_models/"))
-
+# plot the average reward
 avg = []
 c = 0
 ss = 0

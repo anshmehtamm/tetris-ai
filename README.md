@@ -14,6 +14,10 @@ In this project, we explore the application of reinforcement learning techniques
 2. DQN (Without Hueristics) (Failed)
 3. DQN (With Hueristics) 
 
+Credits for the environment to setup the environment
+1. Q-learning & DQN (Without Heuristics) : GYM Tetris https://gymnasium.farama.org/environments/atari/tetris/
+2. DQN (With Heuristics): https://github.com/uvipen/Tetris-deep-Q-learning-pytorch
+
 ## Installation
 To run the code in this repository, you need to have the following dependencies installed:
 - Python 3.x 
