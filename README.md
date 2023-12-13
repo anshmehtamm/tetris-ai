@@ -1,42 +1,35 @@
-# tetris-ai
-AI Agent Plays Tetris
+# Block Breaker: Using Reinforcement Learning
+
+This repository contains the code for the project report on using reinforcement learning to play the game "Tetris"
+
+## Table of Contents
+- [Introduction](#introduction)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Contributing](#contributing)
+- [License](#license)
+
+## Introduction
+In this project, we explore the application of reinforcement learning techniques to train an agent to play the game Block Breaker. The goal is to develop an AI agent that can learn to play the game effectively through trial and error. Various method of reinforcment learning explored. Code can be found in directories
+1. Q-learning (Failed)
+2. DQN (Without Hueristics) (Failed)
+3. DQN (With Hueristics) 
+
+## Installation
+To run the code in this repository, you need to have the following dependencies installed:
+- Python 3.x 
+- CV2
+- Pytorch
+- numpy
+- gymnasium[accept-rom-license, atari]  *(pip install "gymnasium[accept-rom-license, atari]")*
+- matplotlib
+
+## Usage
+
+Clone the repo, in the directory of DQN(With Heuristics) run the train.py to train the model. It should take around 5 mins. A model will be saved in root directory. Run the saved model using test.py and visualize.
+
+## Demo
 
 
-Import 
-pip install "gym[accept-rom-license, atari]"
-pip install "gymnasium[accept-rom-license, atari]"
 
 
-1st Technique
-
-1. Elementary Q table storing hash of each state.
-2. State is a array of RAM state of an NES device.
-3. Learned Q table is compressed and stored.
-4. State is 128 bytes array, each byte is an integer between 0 and 255.
-5. State Space = 256*128 = 32768 states.
-6. At every state there can be 5 actions which can be taken.
-7. Learning over 32768 states.
-
-2nd Technique
-
-Paper: https://www.cs.toronto.edu/~vmnih/docs/dqn.pdf
-
-Playing Atari games with Deep Reinforcement Learning
-
-1. With RL games sequences of highly correlated sequences
-2. Delay between actions and resulting rewards (only when you clear a line you
-actually get a reward) - sparse reward
-3. A expeirience replay mechanism
-
-
-STEPS: 
-
-CNN
-
-Crop the image (show orignal image and new image)
-orignal size 210*160 (3 channels)
-new size = 177*43 (3 channels)
-reduce to single channel - applied luma transform
-
-
-https://datacrystal.romhacking.net/wiki/Tetris_(NES):RAM_map
