@@ -5,7 +5,7 @@ This repository contains the code for the project report on using reinforcement 
 ## Table of Contents
 - [Introduction](#introduction)
 - [Installation](#installation)
-- [Usage](#usage)
+- [Demo](#usage)
 - [Contributing](#contributing)
 - [License](#license)
 
@@ -29,6 +29,11 @@ To run the code in this repository, you need to have the following dependencies 
 Clone the repo, in the directory of DQN(With Heuristics) run the train.py to train the model. It should take around 5 mins. A model will be saved in root directory. Run the saved model using test.py and visualize.
 
 ## Demo
+
+DQN Heuristic 
+![](https://github.com/anshmehtamm/tetris-ai/demo.gif)
+
+## License
 
 
 
