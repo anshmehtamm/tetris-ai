@@ -17,7 +17,26 @@ pip install "gymnasium[accept-rom-license, atari]"
 6. At every state there can be 5 actions which can be taken.
 7. Learning over 32768 states.
 
+2nd Technique
 
+Paper: https://www.cs.toronto.edu/~vmnih/docs/dqn.pdf
+
+Playing Atari games with Deep Reinforcement Learning
+
+1. With RL games sequences of highly correlated sequences
+2. Delay between actions and resulting rewards (only when you clear a line you
+actually get a reward) - sparse reward
+3. A expeirience replay mechanism
+
+
+STEPS: 
+
+CNN
+
+Crop the image (show orignal image and new image)
+orignal size 210*160 (3 channels)
+new size = 177*43 (3 channels)
+reduce to single channel - applied luma transform
 
 
 https://datacrystal.romhacking.net/wiki/Tetris_(NES):RAM_map
