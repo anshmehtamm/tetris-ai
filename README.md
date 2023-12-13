@@ -31,7 +31,7 @@ Clone the repo, in the directory of DQN(With Heuristics) run the train.py to tra
 ## Demo
 
 DQN Heuristic 
-![]([https://github.com/anshmehtamm/tetris-ai/demo.gif](https://github.com/anshmehtamm/tetris-ai/blob/main/demo.gif)https://github.com/anshmehtamm/tetris-ai/blob/main/demo.gif)
+![](demo.gif)
 
 ## License
 
